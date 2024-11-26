@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{% url 'tools:tools_list' %}">在线工具</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ tools_name }}</li>
+        </ol>
+    </nav>
+    <div class="row pt-3 mt-3 form-control">
+        <div class="col">
+            <h3 class="panel-title">Tools of {{ tools_name }} Usage</h3>
+            <h5 class="panel-body">
+                <p>注意事项：</p>
+                <p style="text-indent:2em;">1. 上传一个包含多个文件的压缩包，压缩包中的结构如下：</p>
+                <ul style="text-indent:2em;">
+                    <p>每个子文件夹表示一个 sheet 的名称；</p>
+                    <p>子文件夹中的所有 Excel 文件会被合并为一个表，放到对应的 sheet 中；</p>
+                </ul>
+                <p style="text-indent:2em;">2. 合并完成后，生成的 Excel 文件将包含多个 sheet，每个 sheet 的名称为子文件夹的名称。</p>
+                <p style="text-indent:2em;">3. 支持的文件类型为 .zip，内部文件需为 Excel 文件 (.xlsx)。</p>
+            </h5>
+        </div>
+    </div>
+    <div class="row pt-3 mt-3 form-control">
+        <!-- Form -->
+        <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="mb-4">
+                <label for="zipFile" class="form-label">上传包含子文件夹的压缩包 (zip 格式)</label>
+                <input class="form-control form-control-lg" required="required" type="file" id="zipFile" name="zip_file">
+            </div>
+            <div class="mb-4">
+                <label for="outputFileName" class="form-label">生成的 Excel 文件名称</label>
+                <input class="form-control form-control-lg" required="required" type="text" id="outputFileName" name="output_file_name" placeholder="例如：MergedData.xlsx">
+            </div>
+            <div class="col-xs-7 mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">开始</button>
+            </div>
+        </form>
+        <!-- End form -->
+    </div>
+</div>
+{% endblock %}

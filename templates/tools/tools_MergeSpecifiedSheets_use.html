@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="{% url 'tools:tools_list' %}">在线工具</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ tools_name }}</li>
+        </ol>
+    </nav>
+    <div class="row pt-3 mt-3 form-control">
+        <div class="col">
+            <h3 class="panel-title">Tools of {{ tools_name }} Usage</h3>
+            <h5 class="panel-body">
+                <p>注意事项：</p>
+                <ul style="padding-left: 2em;">
+                    <li>上传一个 Excel 文件 (.xlsx)；</li>
+                    <li>填写需要合并的 Sheet 名称列表，多个名称用逗号分隔，例如：Sheet1,Sheet2,Sheet3；</li>
+                    <li>合并指定 Sheet 数据后保存到一个新的 Sheet 中；</li>
+                </ul>
+                <p style="text-indent:2em;">4. 生成的新 Excel 文件中只有一个 Sheet，名称为用户指定的 Sheet 名称。</p>
+            </h5>
+        </div>
+    </div>
+    <div class="row pt-3 mt-3 form-control">
+        <!-- Form -->
+        <form class="form-group" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="mb-4">
+                <label for="excelFile" class="form-label">上传 Excel 文件 (.xlsx)</label>
+                <input class="form-control form-control-lg" required="required" type="file" id="excelFile" name="excel_file">
+            </div>
+            <div class="mb-4">
+                <label for="sheetNames" class="form-label">需要合并的 Sheet 名称列表 (用逗号分隔)</label>
+                <input class="form-control form-control-lg" required="required" type="text" id="sheetNames" name="sheet_names" placeholder="例如：Sheet1,Sheet2,Sheet3">
+            </div>
+            <div class="mb-4">
+                <label for="outputSheetName" class="form-label">合并后的 Sheet 名称</label>
+                <input class="form-control form-control-lg" required="required" type="text" id="outputSheetName" name="output_sheet_name" placeholder="例如：MergedSheet">
+            </div>
+            <div class="mb-4">
+                <label for="outputFileName" class="form-label">生成的 Excel 文件名称</label>
+                <input class="form-control form-control-lg" required="required" type="text" id="outputFileName" name="output_file_name" placeholder="例如：MergedData.xlsx">
+            </div>
+            <div class="col-xs-7 mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">开始</button>
+            </div>
+        </form>
+        <!-- End form -->
+    </div>
+</div>
+{% endblock %}
